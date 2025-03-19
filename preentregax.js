@@ -1,15 +1,23 @@
-/* Pre entrega nº1 */
+/* Pre entrega nº2 */
+/* Evolucion del primer ejercicio enviado en preentrega 1 */
 /* La idea es simular un alta de clientes y un listado de los clientes cargados */
 /* Por ahora no incluyo ni bajas ni modificaciones pero sería algo para mejorar cuando pueda grabar en una BBDD  */
 /* Bloque de definición de variables */
 
-let apynCli = "" /* variable para Apellido y nombre cliente */
+/*let apynCli = "" /* variable para Apellido y nombre cliente */
 let arrayCli = [] /*se guardaran los códigos de cliente  */
 let arrayApyn = []/* se guardaran los nombres de clientes en la misma posición que su codigo en la otra array */
 let opcion = ""
 let codCli = 0/* variable para el codigo de cliente */
+let arrayClientes=[] /* defino array vacia que va a contener los objetos cliente */
+const objCliente = {
+    objcCdcli:0,
+    objApyn:""
+};
 
-/* Bloque de definicion de funciones */
+
+
+/* Bloque de definicion de funciones 
 /* Funcion de input de codigo de cliente - La idea es que la función permita el input del codigo de cliente y haga alguna validación*/
 function alta() {
     codCli = parseInt(prompt("Ingrese código cliente"))
@@ -74,12 +82,4 @@ while (opcion != "F") {
             {alert("Se produjo algún tipo de error")}
     }
 }
-
-
-
-
-
-
-
-
 
