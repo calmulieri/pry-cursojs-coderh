@@ -13,6 +13,7 @@ class cliente {
 }
 /* defino array de clientes */
 let arrayClientes = []   // Este array contendrá los datos codigo y nombre
+/* Defino constantes del formulario */
 const formulario = document.getElementById("formulario");
 const boton = document.getElementById("boton");
 const codigo = document.getElementById("codigo")
@@ -20,20 +21,86 @@ const nombre = document.getElementById("nombre")
 const ingresados = document.getElementById("ingresados")
 let apynCli = ""; // variable de trabajo
 let codCli = 0;   // variable de trabajo
+let zerror = 0;   // utilizado para indicar errores en inputs
 
-/*defino funciones */
+/* defino funciones */
+/* funcion para validar el ingreso de los datos */
+function alta() {
+    zerror = 0
+    if (apynCli === "") {
+        zerror = 3 /* marca que hubo error */
+    }
+    if (isNaN(codCli) || codCli <= 0) {
+        zerror = 1 /* marca que hubo error */
+    }
+    else {
+        for (let i = 0; i < arrayClientes.length; i++){
+            if (codCli==arrayClientes[i].codi){
+             zerror = 2 /* marca que hubo error */
+            } 
+        }
+    }
+    return
+}
+/* Funcion para subir el array al storage*/ 
+function subeArray(){
+    localStorage.setItem("clientes", JSON.stringify(arrayClientes));
+    return
+} 
+/* Funcion para bajar el storage al array*/
+function bajastorage(){
+    if (arrayClientes.length ===0){
+        arrayClientes = JSON.parse(localStorage.getItem("clientes")) || [];
+    }
+    return
+}
+
+/*defino Eventos*/
+
+formulario.addEventListener("submit", (event) => {
+    // evita el reset
+    event.preventDefault();
+    /* transfiero valores del formulario a las viariables de trabajo*/
+    codCli = codigo.value;
+    apynCli = nombre.value;
+    bajastorage()// si el array está vacío busca el storage
+    alta();
+    if (zerror === 0) {
+        const nuevocliente = new cliente(codCli, apynCli);  // nueva instancia de cliente
+        arrayClientes.push(nuevocliente);   // agrega cliente al array
+        subeArray();    // sube el array al storage
+    }
+    else{
+        if (zerror === 1) {
+            alert("Debe ser un valor numerico entero y positivo");
+        }
+        else {
+            if (zerror === 2) {
+                alert("No pueden repetirse codigos");
+            }
+            else{
+                if (zerror === 3) {
+                    alert("El nombre no puede estar en blanco o vacío");
+                }
+
+            }
+        }
+    }
+})
     
- 
+
+
+/*boton.addEventListener("click", (event) => {
+    event.preventDefault()
+    codCli = codigo.value;
+    apynCli = nombre.value;
+    const nuevocliente = new cliente(codCli, apynCli);
+    ingresados.textContent = `datos: ${nuevocliente.apyn}  ${nuevocliente.codi}`
+})*/
+
 /* inicio del bloque de logica */
-    boton.addEventListener("click", function() {
-        codCli=codigo.value;
-        apynCli=nombre.value;
-        const nuevocliente = new cliente(codCli, apynCli);  
-        ingresados.text=`datos: ${codCli}  ${apynCli}`
-    })
 
 
 
 
- 
-    
+
