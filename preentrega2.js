@@ -15,6 +15,8 @@ class cliente {
 let arrayClientes = []   // Este array contendrá los datos codigo y nombre
 /* Defino constantes del formulario */
 const formulario = document.getElementById("formulario");
+const tablaClientes = document.getElementById("tablaClientes");
+const tablaBody = document.querySelector("#tablaClientes tbody");
 const boton = document.getElementById("boton");
 const codigo = document.getElementById("codigo")
 const nombre = document.getElementById("nombre")
@@ -51,11 +53,32 @@ function subeArray(){
 function bajastorage(){
     if (arrayClientes.length ===0){
         arrayClientes = JSON.parse(localStorage.getItem("clientes")) || [];
+        tablaBody.innerHTML = "";               //Vacía el body de la tabla html
+        completaTabla()
+
     }
     return
 }
+function completaTabla(){
+    for (let i = 0; i < arrayClientes.length; i++) {
+        agregafila(arrayClientes[i].codi,arrayClientes[i].apyn)
+    }
+}
+/* funcion para agregar filas y columnas a la tabla*/
+function agregafila(cliente, apyn){
+    const fila = document.createElement("tr");  //inserto una fila en la tabla
+    const celda = document.createElement("td"); //inserto una columna en la fila
+    celda.textContent = ` ${cliente} - ${apyn}`;// Agregar el codigo de cliente de la celda
+    fila.appendChild(celda);                    // Agregar la columna a la fila
+    tablaBody.appendChild(fila);                // Agregar la fila a tablaBody
 
+    return
+}
 /*defino Eventos*/
+/* escucha que se carga el formulario */
+    addEventListener("DOMContentLoaded", function() {
+    bajastorage(); // Llamar a tu función
+})
 
 formulario.addEventListener("submit", (event) => {
     // evita el reset
@@ -63,12 +86,12 @@ formulario.addEventListener("submit", (event) => {
     /* transfiero valores del formulario a las viariables de trabajo*/
     codCli = codigo.value;
     apynCli = nombre.value;
-    bajastorage()// si el array está vacío busca el storage
     alta();
     if (zerror === 0) {
         const nuevocliente = new cliente(codCli, apynCli);  // nueva instancia de cliente
         arrayClientes.push(nuevocliente);   // agrega cliente al array
         subeArray();    // sube el array al storage
+        agregafila(codCli, apynCli);
     }
     else{
         if (zerror === 1) {

@@ -1,0 +1,61 @@
+*{
+    margin: 0;
+    padding: 0;
+    /* Ajusta proporcionalemnte padding y margenes al cambiar de tamaño los elementos */
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+body header {
+    background-color:black;
+    position: sticky;
+    top: 0;
+}
+body header div{
+    padding: 0.5 rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border: 3px;
+    border-color: coral;
+}
+body header div h1{
+    color:cornsilk
+}
+body header div p{
+    color:bisque
+}
+body main .ingreso{
+    padding: 5rem;
+    background-color:cornsilk;
+    border: 3px solid darkred ;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+body main .ingreso h2{
+    color:darkslategrey;
+}
+body main .tablax{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border: 3px solid darkred;
+}
+body main .tablax table {
+    width: 100%; /* Opcional: ajusta el ancho */
+    border-collapse: collapse; /* Para que los bordes no se dupliquen */
+}
+
+body main .tablax th {
+    border: 2px solid black; /* Borde negro de 2px */
+    padding: 4px; /* Espaciado interno */
+    text-align: center; /* Centrar texto */
+}
+body main .tablax td {
+    border: 2px solid black; /* Borde negro de 2px */
+    padding: 4px; /* Espaciado interno */
+    text-align: center; /* Centrar texto */
+}
