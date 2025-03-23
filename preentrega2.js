@@ -36,22 +36,22 @@ function alta() {
         zerror = 1 /* marca que hubo error */
     }
     else {
-        for (let i = 0; i < arrayClientes.length; i++){
-            if (codCli==arrayClientes[i].codi){
-             zerror = 2 /* marca que hubo error */
-            } 
+        for (let i = 0; i < arrayClientes.length; i++) {
+            if (codCli == arrayClientes[i].codi) {
+                zerror = 2 /* marca que hubo error */
+            }
         }
     }
     return
 }
-/* Funcion para subir el array al storage*/ 
-function subeArray(){
+/* Funcion para subir el array al storage*/
+function subeArray() {
     localStorage.setItem("clientes", JSON.stringify(arrayClientes));
     return
-} 
+}
 /* Funcion para bajar el storage al array*/
-function bajastorage(){
-    if (arrayClientes.length ===0){
+function bajastorage() {
+    if (arrayClientes.length === 0) {
         arrayClientes = JSON.parse(localStorage.getItem("clientes")) || [];
         tablaBody.innerHTML = "";               //Vacía el body de la tabla html
         completaTabla()
@@ -59,24 +59,29 @@ function bajastorage(){
     }
     return
 }
-function completaTabla(){
+/* Recorre el array y completa la tabla html masivamente */
+function completaTabla() {
     for (let i = 0; i < arrayClientes.length; i++) {
-        agregafila(arrayClientes[i].codi,arrayClientes[i].apyn)
+        agregafila(arrayClientes[i].codi, arrayClientes[i].apyn);
     }
+    return
 }
-/* funcion para agregar filas y columnas a la tabla*/
-function agregafila(cliente, apyn){
-    const fila = document.createElement("tr");  //inserto una fila en la tabla
-    const celda = document.createElement("td"); //inserto una columna en la fila
-    celda.textContent = ` ${cliente} - ${apyn}`;// Agregar el codigo de cliente de la celda
-    fila.appendChild(celda);                    // Agregar la columna a la fila
-    tablaBody.appendChild(fila);                // Agregar la fila a tablaBody
+/* funcion para agregar la fila y columnas a la tabla en el html*/
+function agregafila(cliente, apyn) {
+    const fila = document.createElement("tr");      //Creo fila    
+    const celdaCod = document.createElement("td");  //Creo celda
+    celdaCod.textContent = `${cliente}`;            
+    fila.appendChild(celdaCod);                     //Inserto celda
+    const celdaApyn = document.createElement("td"); //Creo celda 2
+    celdaApyn.textContent = `${apyn}`;              
+    fila.appendChild(celdaApyn);                    //Inserto celda 2Agregar la fila
+    tablaBody.appendChild(fila);                    //Inserto fila
 
     return
 }
 /*defino Eventos*/
 /* escucha que se carga el formulario */
-    addEventListener("DOMContentLoaded", function() {
+addEventListener("DOMContentLoaded", function () {
     bajastorage(); // Llamar a tu función
 })
 
@@ -93,7 +98,7 @@ formulario.addEventListener("submit", (event) => {
         subeArray();    // sube el array al storage
         agregafila(codCli, apynCli);
     }
-    else{
+    else {
         if (zerror === 1) {
             alert("Debe ser un valor numerico entero y positivo");
         }
@@ -101,7 +106,7 @@ formulario.addEventListener("submit", (event) => {
             if (zerror === 2) {
                 alert("No pueden repetirse codigos");
             }
-            else{
+            else {
                 if (zerror === 3) {
                     alert("El nombre no puede estar en blanco o vacío");
                 }
@@ -110,7 +115,7 @@ formulario.addEventListener("submit", (event) => {
         }
     }
 })
-    
+
 
 
 /*boton.addEventListener("click", (event) => {
