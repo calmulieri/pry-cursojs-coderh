@@ -23,17 +23,23 @@
     <main>
         <section class="ingreso">
             <h2>Ingresar datos de los clientes</h2>
-            <div>
-                <form id="formulario">
+            <form id="formulario">
+                <div class="formulario-linea">
                     <label for="codigo">Código de cliente:</label>
                     <input type="number" id="codigo">
-
+                </div>
+                <div class="formulario-linea">
                     <label for="nombre">Apellido y Nombre:</label>
                     <input type="text" id="nombre">
+                </div>
+                <button type="submit" id="boton">Guardar</button>
+            </form>
+            <form id="buscar">
+                <label for="buscarnombre">Apellido y Nombre:</label>
+                <input type="text" id="buscarnombre">
 
-                    <button type="submit" id="boton">Guardar</button>
-                </form>
-            </div>
+                <button type="submit" id="btnBuscar">Buscar</button>
+            </form>
         </section>
         <Section class="tablax">
             <div>
@@ -44,7 +50,7 @@
                     <thead>
                         <tr>
                             <th>Código cliente</th>
-                            <th>Apellido y nombrees</th>
+                            <th>Apellido y nombres</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +65,7 @@
 
     </main>
     <!-- Al final del body linkeamos el js -->
-    <script src="./preentrega2.js"> </script>
+    <script src="./entregafinal.js"> </script>
 </body>
 
 </html>

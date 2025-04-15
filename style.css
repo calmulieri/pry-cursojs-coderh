@@ -6,7 +6,13 @@
     list-style: none;
     text-decoration: none;
 }
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
 body header {
+    height: 20%;
     background-color:black;
     position: sticky;
     top: 0;
@@ -26,23 +32,52 @@ body header div h1{
 body header div p{
     color:bisque
 }
+body main{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    height: 100vh
+    
+}
 body main .ingreso{
-    padding: 5rem;
-    background-color:cornsilk;
-    border: 3px solid darkred ;
     display:flex;
     flex-direction: column;
-    align-items: center;
-}
+    padding: 1rem;
+    width: 50%;
+    background-color:cornsilk;
+    border: 3px solid darkred ;
+    
+}    
 body main .ingreso h2{
     color:darkslategrey;
+    margin-bottom: 2rem;
+    text-align: center;
 }
+body main .ingreso form{
+    height:50%;
+}
+
+body main .ingreso .formulario{
+    display:flex;
+    flex-direction: column;
+}
+body main .ingreso .formulario .formulario-linea label, .formulario-linea input {
+    margin-bottom: 10px;
+    
+}
+  
+/*body main .ingreso div .formulario .datosCliente{
+    display: flex;
+    flex-direction: column;
+}*/
 body main .tablax{
     display:flex;
     flex-direction: column;
     align-items: center;
     padding: 1rem;
     border: 3px solid darkred;
+    width: 50%;
+    height: 50%;
 }
 body main .tablax table {
     width: 100%; /* Opcional: ajusta el ancho */

@@ -74,15 +74,15 @@ function agregafila(cliente, apyn) {
     fila.appendChild(celdaCod);                     //Inserto celda
     const celdaApyn = document.createElement("td"); //Creo celda 2
     celdaApyn.textContent = `${apyn}`;              
-    fila.appendChild(celdaApyn);                    //Inserto celda 2Agregar la fila
+    fila.appendChild(celdaApyn);                    //Inserto celda 2
     tablaBody.appendChild(fila);                    //Inserto fila
 
     return
 }
 /*defino Eventos*/
-/* escucha que se carga el formulario */
+/* escucha si se carga el formulario html */
 addEventListener("DOMContentLoaded", function () {
-    bajastorage(); // Llamar a tu función
+    bajastorage(); // 
 })
 
 formulario.addEventListener("submit", (event) => {
@@ -118,15 +118,6 @@ formulario.addEventListener("submit", (event) => {
 
 
 
-/*boton.addEventListener("click", (event) => {
-    event.preventDefault()
-    codCli = codigo.value;
-    apynCli = nombre.value;
-    const nuevocliente = new cliente(codCli, apynCli);
-    ingresados.textContent = `datos: ${nuevocliente.apyn}  ${nuevocliente.codi}`
-})*/
-
-/* inicio del bloque de logica */
 
 
 
