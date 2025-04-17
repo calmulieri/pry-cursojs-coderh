@@ -24,34 +24,32 @@ const boton = document.getElementById("boton");
 const codigo = document.getElementById("codigo")
 const nombre = document.getElementById("nombre")
 const ingresados = document.getElementById("ingresados")
-
-
-
-
-
-
 let apynCli = ""; // variable de trabajo
 let codCli = 0;   // variable de trabajo
-let zerror = 0;   // utilizado para indicar errores en inputs
+let errorEntrada = 0;   // utilizado para indicar errores en inputs
 
 /* defino funciones */
 /* funcion para validar el ingreso de los datos */
-function alta() {
-    zerror = 0
-    if (apynCli === "") {
-        zerror = 3 /* marca que hubo error */
-    }
-    if (isNaN(codCli) || codCli <= 0) {
-        zerror = 1 /* marca que hubo error */
+
+function muestraError(esteError){
+    if (esteError === 1) {
+        alert("Debe ser un valor numerico entero y positivo");
     }
     else {
-        for (let i = 0; i < arrayClientes.length; i++) {
-            if (codCli == arrayClientes[i].codi) {
-                zerror = 2 /* marca que hubo error */
+        if (esteError === 2) {
+            alert("No pueden repetirse codigos");
+        }
+        else {
+            if (esteError === 3) {
+                alert("El nombre no puede estar en blanco o vacío");
             }
+            else
+                if (esteError === 4) {
+                    alert("El registro existe - puede modificar o dar de baja");
+            }
+        
         }
     }
-    return
 }
 /* Funcion valida entrada de datos */
 function valida() {
@@ -65,10 +63,16 @@ function valida() {
     else {
         for (let i = 0; i < arrayClientes.length; i++) {
             if (codCli == arrayClientes[i].codi) {
-                errorEntrada = 2 /* Codigo ya existe */
+                if (cualFuncion === "A"){
+                    errorEntrada = 2 /* Codigo ya existe */    
+                }
+                else{
+                    errorEntrada = 4 /* Modificación o baja */
+                }
             }
         }
     }
+    muestraError(errorEntrada)
     return
 }
 /* Funcion para subir el array al storage*/
@@ -132,44 +136,18 @@ formulario.addEventListener("submit", (event) => {
                 subeArray();    // sube el array al storage
                 agregafila(codCli, apynCli);
             }
-            else {
-                if (errorEntrada === 1) {
-                    alert("Debe ser un valor numerico entero y positivo");
-                }
-                else {
-                    if (errorEntrada === 2) {
-                        alert("No pueden repetirse codigos");
-                    }
-                    else {
-                        if (errorEntrada === 3) {
-                            alert("El nombre no puede estar en blanco o vacío");
-                        }
-
-                    }
-                }
-            }
             break;
         case "M":
             // Código para Modificación
-            if (errorEntrada === 2) {
+            if (errorEntrada === 4) {
                 /** todo ok modificamos **/
                 arrayClientes[cualmodifico].apyn = apynCli
                 subeArray();    // sube el array al storage
-                
-            }
-            else {
-                if (errorEntrada === 1) {
-                    alert("Debe ser un valor numerico entero y positivo");
-                }
-                else {
-                    if (errorEntrada === 3) {
-                        alert("El nombre no puede estar en blanco o vacío");
-                    }
-                }
+                tablaBody.innerHTML = "";
+                completaTabla();
             }
             break;
-    
-        case "B":
+            case "B":
         default:
             console.log("Opción no válida");
     }
@@ -177,39 +155,6 @@ formulario.addEventListener("submit", (event) => {
     cualmodifico= -1
     document.getElementById("codigo").disabled = false;
   })
-  
-
-
-
-
-
-    //alta();
-    /****************   borrar si todo funciona ********************** */
-   /* if (zerror === 0) {
-        const nuevocliente = new cliente(codCli, apynCli);  // nueva instancia de cliente
-        arrayClientes.push(nuevocliente);   // agrega cliente al array
-        
-        subeArray();    // sube el array al storage
-        agregafila(codCli, apynCli);
-    }
-    else {
-        if (zerror === 1) {
-            alert("Debe ser un valor numerico entero y positivo");
-        }
-        else {
-            if (zerror === 2) {
-                alert("No pueden repetirse codigos");
-            }
-            else {
-                if (zerror === 3) {
-                    alert("El nombre no puede estar en blanco o vacío");
-                }
-
-            }
-        }
-    }
-})*/
-
 /* Escucha dobleclick en lista de clientes */
 tablaBody.addEventListener("dblclick", function (event) {
     // Buscamos el renglon de la tablaclientes donde se realizo el 2click
@@ -221,6 +166,8 @@ tablaBody.addEventListener("dblclick", function (event) {
         // Obtengo todas las filas actuales del tbody como array
         const wfilas = Array.from(tablaBody.querySelectorAll("tr"));
         const windice = wfilas.indexOf(filaClickeada);
+        //console.log(wfilas.children[1].textContent);
+
         codigo.value=arrayClientes[windice].codi;
         nombre.value=arrayClientes[windice].apyn;
         document.getElementById("codigo").disabled = true;
