@@ -21,9 +21,13 @@ const tablaClientes = document.getElementById("tablaClientes");
 const tablaBody = document.querySelector("#tablaClientes tbody");
 const filas = tablaBody.querySelectorAll("tr");
 const boton = document.getElementById("boton");
+const btnCancelar = document.getElementById("btncancelar")
+const btnBaja = document.getElementById("btnbaja")
 const codigo = document.getElementById("codigo")
 const nombre = document.getElementById("nombre")
 const ingresados = document.getElementById("ingresados")
+const buscarNombre = document.getElementById("buscarnombre");
+const btnBuscar = document.getElementById("btnBuscar");
 let apynCli = ""; // variable de trabajo
 let codCli = 0;   // variable de trabajo
 let errorEntrada = 0;   // utilizado para indicar errores en inputs
@@ -31,6 +35,13 @@ let errorEntrada = 0;   // utilizado para indicar errores en inputs
 /* defino funciones */
 /* funcion para validar el ingreso de los datos */
 
+function limpiaForm(){
+    cualFuncion = "A"
+    cualmodifico= -1
+    document.getElementById("formulario").reset();
+    document.getElementById("codigo").disabled = false;
+    document.getElementById("nombre").disabled = false;
+}
 function muestraError(esteError){
     if (esteError === 1) {
         alert("Debe ser un valor numerico entero y positivo");
@@ -151,9 +162,7 @@ formulario.addEventListener("submit", (event) => {
         default:
             console.log("Opción no válida");
     }
-    cualFuncion = "A"
-    cualmodifico= -1
-    document.getElementById("codigo").disabled = false;
+    limpiaForm()
   })
 /* Escucha dobleclick en lista de clientes */
 tablaBody.addEventListener("dblclick", function (event) {
@@ -175,3 +184,32 @@ tablaBody.addEventListener("dblclick", function (event) {
         cualmodifico=windice
     }
 })
+btnCancelar.addEventListener("click", function(){
+    limpiaForm()
+})
+btnBuscar.addEventListener("click", function () {
+    const textoBuscar = buscarNombre.value.trim().toLowerCase();
+
+    if (textoBuscar === "") {
+        alert("Debe ingresar un nombre o parte del nombre para buscar.");
+        return;
+    }
+    const resultados = arrayClientes.filter(cliente =>
+        cliente.apyn.toLowerCase().includes(textoBuscar)
+    );
+
+    if (resultados.length > 0) {
+        // Muestra solo los resultados encontrados
+            // Limpia la tabla actual
+        tablaBody.innerHTML = "";
+        resultados.forEach(cliente => {
+            agregafila(cliente.codi, cliente.apyn);
+        });
+    } else {
+        // Si no hay resultados, podrías mostrar un mensaje en consola o en la tabla
+        console.log("No se encontraron coincidencias.");
+    }
+
+    // Opcional: limpiar el input de búsqueda
+    buscarNombre.value = "";
+});

@@ -18,7 +18,7 @@ body header {
     top: 0;
 }
 body header div{
-    padding: 0.5 rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,15 +61,48 @@ body main .ingreso .formulario{
     display:flex;
     flex-direction: column;
 }
-body main .ingreso .formulario .formulario-linea label, .formulario-linea input {
+body main .ingreso form .formulario-linea {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+body main .ingreso form .botonera-linea{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem; /* Espacio entre los botones */
+    margin-top: 1rem;
+}
+body main .ingreso form .botonera-linea button {
+    flex: 1; /* Cada botón ocupa el mismo ancho */
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: darkred;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+body main .ingreso form .botonera-linea button:hover {
+    background-color: crimson;
+}
+
+body main .ingreso form .formulario-linea label{
+    width: 200px; /* Fijamos ancho para alinear todos los labels */
+    margin-right: 1rem;
+}
+
+body main .ingreso form .formulario-linea label, .formulario-linea input {
     margin-bottom: 10px;
     
 }
+body main .ingreso form .formulario-linea input {
+    flex: 1; /* Ocupa el espacio restante */
+    padding: 0.5rem;
+}
   
-/*body main .ingreso div .formulario .datosCliente{
-    display: flex;
-    flex-direction: column;
-}*/
+
 body main .tablax{
     display:flex;
     flex-direction: column;
@@ -77,7 +110,7 @@ body main .tablax{
     padding: 1rem;
     border: 3px solid darkred;
     width: 50%;
-    height: 50%;
+    height: 100%;
 }
 body main .tablax table {
     width: 100%; /* Opcional: ajusta el ancho */

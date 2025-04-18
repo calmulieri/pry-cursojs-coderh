@@ -13,7 +13,7 @@
     <header>
         <div>
             <h1 id="titu1">Simulador de Altas, bajas y modificaciones de clientes</h1>
-            <p>Ejercicio de la pre-entrega número 2</p>
+            <p>Ejercicio de entrega final</p>
             <p>Profesor: Andrés Pata Fraile de Manterola</p>
             <p>Tutor: Miguel Rodenas</p>
             <p>Alumno: Carlos Mulieri</p>
@@ -32,13 +32,20 @@
                     <label for="nombre">Apellido y Nombre:</label>
                     <input type="text" id="nombre">
                 </div>
-                <button type="submit" id="boton">Guardar</button>
+                <div class="botonera-linea">
+                    <button type="submit" id="boton">Guardar</button>
+                    <button type="button" id="btncancelar">Cancelar</button>
+                    <button type="button" id="btnbaja">Baja</button>
+                </div>
             </form>
-            <form id="buscar">
-                <label for="buscarnombre">Apellido y Nombre:</label>
-                <input type="text" id="buscarnombre">
-
-                <button type="submit" id="btnBuscar">Buscar</button>
+            <form class="buscar" id="buscar">
+                <div class="formulario-linea">
+                    <label for="buscarnombre">Apellido y Nombre:</label>
+                    <input type="text" id="buscarnombre">
+                </div>
+                <div class="botonera-linea">
+                    <button type="button" id="btnBuscar">Buscar</button>
+                </div>
             </form>
         </section>
         <Section class="tablax">
