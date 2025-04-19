@@ -30,35 +30,73 @@ const buscarNombre = document.getElementById("buscarnombre");
 const btnBuscar = document.getElementById("btnBuscar");
 let apynCli = ""; // variable de trabajo
 let codCli = 0;   // variable de trabajo
-let errorEntrada = 0;   // utilizado para indicar errores en inputs
+let errorEntrada = 0;   // utilizado para indicar codigos de error de inputs y mensajes
 
 /* defino funciones */
+/* funcion para agregar la fila y columnas a la tabla en el html*/
+function agregafila(cliente, apyn) {
+    const fila = document.createElement("tr");      //Creo fila    
+    const celdaCod = document.createElement("td");  //Creo celda
+    celdaCod.textContent = `${cliente}`;
+    fila.appendChild(celdaCod);                     //Inserto celda
+    const celdaApyn = document.createElement("td"); //Creo celda 2
+    celdaApyn.textContent = `${apyn}`;
+    fila.appendChild(celdaApyn);                    //Inserto celda 2
+    tablaBody.appendChild(fila);                    //Inserto fila
+    return
+}
+/* Recorre el array y completa la tabla html masivamente */
+function completaTabla() {
+    for (let i = 0; i < arrayClientes.length; i++) {
+        agregafila(arrayClientes[i].codi, arrayClientes[i].apyn);
+    }
+    return
+}
 /* funcion para validar el ingreso de los datos */
-
-function limpiaForm(){
+function limpiaForm() {
     cualFuncion = "A"
-    cualmodifico= -1
+    cualmodifico = -1
     document.getElementById("formulario").reset();
     document.getElementById("codigo").disabled = false;
     document.getElementById("nombre").disabled = false;
+    btnBaja.disabled = true;
+    tablaBody.innerHTML = "";
+    completaTabla();
 }
-function muestraError(esteError){
+function muestraError(esteError) {
     if (esteError === 1) {
-        alert("Debe ser un valor numerico entero y positivo");
+        Swal.fire({
+            title: "Ingreso de código cliente",
+            text: "Debe ser un valor numerico entero y positivo",
+            icon: "error"
+        });
     }
     else {
         if (esteError === 2) {
-            alert("No pueden repetirse codigos");
+            Swal.fire({
+                title: "Ingreso de código cliente",
+                text: "No pueden repetirse codigos",
+                icon: "error"
+            });
         }
         else {
             if (esteError === 3) {
-                alert("El nombre no puede estar en blanco o vacío");
+                Swal.fire({
+                    title: "Ingreso de código Apellido y nombre",
+                    text: "El nombre no puede estar en blanco o vacío",
+                    icon: "error"
+                });
             }
-            else
+            else {
                 if (esteError === 4) {
-                    alert("El registro existe - puede modificar o dar de baja");
+                    Swal.fire({
+                        title: "Registro existente",
+                        text: "El registro existe - puede modificar o dar de baja",
+                        icon: "info"
+                    });
+                }
             }
-        
+
         }
     }
 }
@@ -74,11 +112,11 @@ function valida() {
     else {
         for (let i = 0; i < arrayClientes.length; i++) {
             if (codCli == arrayClientes[i].codi) {
-                if (cualFuncion === "A"){
-                    errorEntrada = 2 /* Codigo ya existe */    
+                if (cualFuncion === "A") {
+                    errorEntrada = 2 /* Codigo ya existe */
                 }
-                else{
-                    errorEntrada = 4 /* Modificación o baja */
+                else {
+                    errorEntrada = 0 /* Modificación o baja */
                 }
             }
         }
@@ -92,32 +130,13 @@ function subeArray() {
     return
 }
 
-/* funcion para agregar la fila y columnas a la tabla en el html*/
-function agregafila(cliente, apyn) {
-    const fila = document.createElement("tr");      //Creo fila    
-    const celdaCod = document.createElement("td");  //Creo celda
-    celdaCod.textContent = `${cliente}`;            
-    fila.appendChild(celdaCod);                     //Inserto celda
-    const celdaApyn = document.createElement("td"); //Creo celda 2
-    celdaApyn.textContent = `${apyn}`;              
-    fila.appendChild(celdaApyn);                    //Inserto celda 2
-    tablaBody.appendChild(fila);                    //Inserto fila
-    return
-}
-/* Recorre el array y completa la tabla html masivamente */
-function completaTabla() {
-    for (let i = 0; i < arrayClientes.length; i++) {
-        agregafila(arrayClientes[i].codi, arrayClientes[i].apyn);
-    }
-    return
-}
+
 /* Funcion para bajar el storage al array*/
 function bajastorage() {
     if (arrayClientes.length === 0) {
         arrayClientes = JSON.parse(localStorage.getItem("clientes")) || [];
         tablaBody.innerHTML = "";               //Vacía el body de la tabla html
         completaTabla()
-
     }
     return
 }
@@ -125,6 +144,7 @@ function bajastorage() {
 /*defino Eventos*/
 /* escucha si se carga el formulario html */
 addEventListener("DOMContentLoaded", function () {
+    limpiaForm();
     bajastorage(); // 
 })
 /* Escucha el evento click en el boton del formulario de clientes */
@@ -143,7 +163,7 @@ formulario.addEventListener("submit", (event) => {
                 /** todo ok damos alta **/
                 const nuevocliente = new cliente(codCli, apynCli);  // nueva instancia de cliente
                 arrayClientes.push(nuevocliente);   // agrega cliente al array
-                
+
                 subeArray();    // sube el array al storage
                 agregafila(codCli, apynCli);
             }
@@ -158,40 +178,62 @@ formulario.addEventListener("submit", (event) => {
                 completaTabla();
             }
             break;
-            case "B":
+        case "B":
         default:
             console.log("Opción no válida");
     }
     limpiaForm()
-  })
+})
 /* Escucha dobleclick en lista de clientes */
 tablaBody.addEventListener("dblclick", function (event) {
-    // Buscamos el renglon de la tablaclientes donde se realizo el 2click
+    // Buscamos el en la tablaclientes donde se realizo el 2click
     // Solo cuando está activado el modo alta (A)
-    if (cualFuncion==="A"){                    
+    if (cualFuncion === "A") {
         const filaClickeada = event.target.closest("tr");
         if (!filaClickeada) return;
 
-        // Obtengo todas las filas actuales del tbody como array
-        const wfilas = Array.from(tablaBody.querySelectorAll("tr"));
-        const windice = wfilas.indexOf(filaClickeada);
-        //console.log(wfilas.children[1].textContent);
+        // ubico el codigo de cliente de la celda clickeada para buscar en el array y traer el indice
+        const celdas = filaClickeada.querySelectorAll("td");
+        const codSeleccionado = celdas[0].textContent;
 
-        codigo.value=arrayClientes[windice].codi;
-        nombre.value=arrayClientes[windice].apyn;
-        document.getElementById("codigo").disabled = true;
-        cualFuncion="M"
-        cualmodifico=windice
+        // guardo el índice en el arrayClientes
+        const indiceReal = arrayClientes.findIndex(cliente => cliente.codi == codSeleccionado);
+
+        if (indiceReal === -1) {
+            Swal.fire({
+                title: "Registro no encontrado",
+                text: "No se encontró el cliente seleccionado.",
+                icon: "warning"
+            });
+            return;
+        }
+        else {
+            // Cargar los datos en el formulario
+            codigo.value = arrayClientes[indiceReal].codi;
+            nombre.value = arrayClientes[indiceReal].apyn;
+            codigo.disabled = true;
+            cualFuncion = "M";
+            cualmodifico = indiceReal;
+            errorEntrada = 4 // solo informativo para mensaje
+            muestraError(errorEntrada)
+            btnBaja.disabled = false; // habilito btnBaja por si se quiere dar de baja
+        }
     }
 })
-btnCancelar.addEventListener("click", function(){
-    limpiaForm()
+/* Evento click en el boton cancelar */
+btnCancelar.addEventListener("click", function () {
+    limpiaForm();
 })
+/* Evento click en el boton buscar - si encuentra mustra resultados en tblaBody */
 btnBuscar.addEventListener("click", function () {
     const textoBuscar = buscarNombre.value.trim().toLowerCase();
 
     if (textoBuscar === "") {
-        alert("Debe ingresar un nombre o parte del nombre para buscar.");
+        Swal.fire({
+            title: "Buscar",
+            text: "Debe ingresar un nombre o parte del nombre para buscar.",
+            icon: "warning"
+        });
         return;
     }
     const resultados = arrayClientes.filter(cliente =>
@@ -200,16 +242,52 @@ btnBuscar.addEventListener("click", function () {
 
     if (resultados.length > 0) {
         // Muestra solo los resultados encontrados
-            // Limpia la tabla actual
+        // Limpia la tabla actual
         tablaBody.innerHTML = "";
         resultados.forEach(cliente => {
             agregafila(cliente.codi, cliente.apyn);
         });
     } else {
-        // Si no hay resultados, podrías mostrar un mensaje en consola o en la tabla
-        console.log("No se encontraron coincidencias.");
+        // Si no hay resultados, muestra mensaje
+        Swal.fire({
+            title: "Buscar",
+            text: "No encontré registros con esa búsqueda",
+            icon: "warning"
+        });
+    }
+    buscarNombre.value = "";
+});
+/* Evento click en el boton baja - combinado con sweet alert da baja del dom del array y la tabla  */
+btnBaja.addEventListener("click", function () {
+    // no debiar ocurrir por boton diable - pero lo dejo por si acaso hasta que este bien probado 
+    if (cualmodifico === -1 || cualFuncion !== "M") {
+        Swal.fire({
+            title: "Baja de cliente",
+            text: "Primero debés seleccionar un cliente haciendo doble clic en la tabla.",
+            icon: "info"
+        });
+        return;
     }
 
-    // Opcional: limpiar el input de búsqueda
-    buscarNombre.value = "";
+    // uso sweet para confirmar la baja
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción dará de baja el cliente seleccionado.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Dar de BAJA el cliente',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            //Elimino registro del array
+            arrayClientes.splice(cualmodifico, 1);
+            // Guardo en el strorage
+            subeArray();
+            // Limpio formulario
+            limpiaForm();
+            Swal.fire('Eliminado', 'El cliente ha sido eliminado con éxito.', 'success');
+        }
+    });
 });
