@@ -12,7 +12,12 @@ class cliente {
     }
 }
 /* defino array de clientes */
-let arrayClientes = []   // Este array contendrá los datos codigo y nombre
+let arrayClientes = [];
+   // { codi: "1", apyn: "Juan Pérez" },
+    //{ codi: "2", apyn: "María García" },
+    //{ codi: "3", apyn: "Carlos Gómez" }
+
+// Este array contendrá los datos codigo y nombre
 let cualFuncion = "A"    // Variable que indica la función de la transacción A=Alta - M=Modifica - B=Baja - A es default
 let cualmodifico = -1    // variable que contendrá el indice de la tabla a modificar o dar de baja
 /* Defino constantes del formulario */
@@ -33,6 +38,11 @@ let codCli = 0;   // variable de trabajo
 let errorEntrada = 0;   // utilizado para indicar codigos de error de inputs y mensajes
 
 /* defino funciones */
+/* funcion para mostrar textos de ayuda o mensajes en el footer*/
+function mostrarAyuda(mensaje) {
+    const ayuda = document.getElementById("ayudaFooter");
+    ayuda.innerText = mensaje;
+}
 /* funcion para agregar la fila y columnas a la tabla en el html*/
 function agregafila(cliente, apyn) {
     const fila = document.createElement("tr");      //Creo fila    
@@ -138,6 +148,15 @@ function bajastorage() {
         tablaBody.innerHTML = "";               //Vacía el body de la tabla html
         completaTabla()
     }
+    // Si no había nada cargado en el DOM, fuerzo un contenido default
+    if (arrayClientes.length === 0) {
+        arrayClientes = [
+        { codi: "1", apyn: "Juan Pérez" },
+        { codi: "2", apyn: "María García" },
+        { codi: "3", apyn: "Carlos Gómez" }]
+        subeArray()
+        completaTabla()
+    }
     return
 }
 
@@ -145,7 +164,8 @@ function bajastorage() {
 /* escucha si se carga el formulario html */
 addEventListener("DOMContentLoaded", function () {
     limpiaForm();
-    bajastorage(); // 
+    bajastorage(); //Trae registros del storage si hay
+    mostrarAyuda("Ingrese un código para alta o dobleclik en la lista para elegir cliente") 
 })
 /* Escucha el evento click en el boton del formulario de clientes */
 formulario.addEventListener("submit", (event) => {

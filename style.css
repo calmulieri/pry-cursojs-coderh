@@ -45,7 +45,7 @@ body main .ingreso{
     padding: 1rem;
     width: 50%;
     background-color:cornsilk;
-    border: 3px solid darkred ;
+    border: 2px solid darkred ;
     
 }    
 body main .ingreso h2{
@@ -126,4 +126,30 @@ body main .tablax td {
     border: 2px solid black; /* Borde negro de 2px */
     padding: 4px; /* Espaciado interno */
     text-align: center; /* Centrar texto */
+}
+body footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    background-color: antiquewhite;
+    padding: 0 20px; /* Espaciado interno a los costados */
+    gap: 20px; /* Espaciado entre imagen y texto */
+    height: 100px;
+    border-top: 1px solid rgb(124, 3, 3);
+}
+body footer .imgcomenta{
+    /*margin-top: 20px;
+    margin-left: 20px;*/
+    width: 40px;
+    height: 40px;
+
+}
+body footer .detallecomenta {
+    margin: 0;
+    font-size: 16px;          /* Más grande */
+    color: #b30000;           /* Rojo fuerte */
+    font-weight: bold;        /* Negrita */
+    background-color: #fff3cd; /* Fondo amarillo suave */
+    /*font-size: 14px;
+    color: #333;*/
 }
