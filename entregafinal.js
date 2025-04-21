@@ -142,24 +142,27 @@ function subeArray() {
 
 
 /* Funcion para bajar el storage al array*/
-function bajastorage() {
+/*En caso del dom vacío utilizo un json local para cargar un lote inicial por defecto*/
+/*La idea sería simular como si fuera a buscar una bbdd que sería a lo que apuntaría en una etapa avanzada*/
+/*del proyecto cuando sepa como accesar BBDD   !!!! ESPERO SE ENTIENDA!!!!*/ 
+async function bajastorage() {
     if (arrayClientes.length === 0) {
         arrayClientes = JSON.parse(localStorage.getItem("clientes")) || [];
-        tablaBody.innerHTML = "";               //Vacía el body de la tabla html
-        completaTabla()
+        // Si sigue vacío, intentamos obtener los datos desde un archivo json
+        if (arrayClientes.length === 0) {
+            try {
+                const respuesta = await fetch("clientes.json");
+                if (!respuesta.ok) throw new Error('Error al cargar datos desde el archivo');
+                arrayClientes = await respuesta.json();
+                subeArray(); // los guardo en storage para futuras sesiones
+            } catch (error) {
+                Swal.fire("Error, no pude obtener registros del json", "error");
+            }
+        }
+        tablaBody.innerHTML = "";
     }
-    // Si no había nada cargado en el DOM, fuerzo un contenido default
-    if (arrayClientes.length === 0) {
-        arrayClientes = [
-        { codi: "1", apyn: "Juan Pérez" },
-        { codi: "2", apyn: "María García" },
-        { codi: "3", apyn: "Carlos Gómez" }]
-        subeArray()
-        completaTabla()
-    }
-    return
+    completaTabla();
 }
-
 /*defino Eventos*/
 /* escucha si se carga el formulario html */
 addEventListener("DOMContentLoaded", function () {
@@ -200,7 +203,7 @@ formulario.addEventListener("submit", (event) => {
             break;
         case "B":
         default:
-            console.log("Opción no válida");
+            Swal.fire("Error grave... opción fuera de contexto lógico... contactar al sevicio técnico ", "error");
     }
     limpiaForm()
 })
