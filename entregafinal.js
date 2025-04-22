@@ -193,7 +193,7 @@ formulario.addEventListener("submit", (event) => {
             break;
         case "M":
             // Código para Modificación
-            if (errorEntrada === 4) {
+            if (errorEntrada === 0) {
                 /** todo ok modificamos **/
                 arrayClientes[cualmodifico].apyn = apynCli
                 subeArray();    // sube el array al storage

@@ -44,7 +44,7 @@ body main .ingreso{
     flex-direction: column;
     padding: 1rem;
     width: 50%;
-    background-color:cornsilk;
+    background-color:rgb(201, 241, 212);
     border: 2px solid darkred ;
     
 }    
@@ -131,7 +131,7 @@ body footer {
     display: flex;
     flex-direction: row;
     align-items: center; 
-    background-color: antiquewhite;
+    background-color: rgb(150, 89, 4);
     padding: 0 20px; /* Espaciado interno a los costados */
     gap: 20px; /* Espaciado entre imagen y texto */
     height: 100px;
@@ -146,10 +146,10 @@ body footer .imgcomenta{
 }
 body footer .detallecomenta {
     margin: 0;
-    font-size: 16px;          /* Más grande */
-    color: #b30000;           /* Rojo fuerte */
+    font-size: 16px;          
+    color: #e9ca62;           /* color letra*/
     font-weight: bold;        /* Negrita */
-    background-color: #fff3cd; /* Fondo amarillo suave */
-    /*font-size: 14px;
-    color: #333;*/
+    /*background-color: #3d2f01; /* color de fondo */
+    
+ 
 }
