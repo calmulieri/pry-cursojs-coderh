@@ -7,19 +7,19 @@
 /* defino clase para clientes */
 class cliente {
     constructor(codi, apyn) {
-        this.codi = codi;
-        this.apyn = apyn;
+        this.codi = codi;    //Código del cliente
+        this.apyn = apyn;    // Apellido y nombres
     }
 }
 /* defino array de clientes */
 let arrayClientes = [];
-   // { codi: "1", apyn: "Juan Pérez" },
-    //{ codi: "2", apyn: "María García" },
-    //{ codi: "3", apyn: "Carlos Gómez" }
+// { codi: "1", apyn: "Juan Pérez" },
+//{ codi: "2", apyn: "María García" },
+//{ codi: "3", apyn: "Carlos Gómez" }
 
 // Este array contendrá los datos codigo y nombre
 let cualFuncion = "A"    // Variable que indica la función de la transacción A=Alta - M=Modifica - B=Baja - A es default
-let cualmodifico = -1    // variable que contendrá el indice de la tabla a modificar o dar de baja
+let cualModifico = -1    // variable que contendrá el indice de la tabla a modificar o dar de baja
 /* Defino constantes del formulario */
 const formulario = document.getElementById("formulario");
 const tablaClientes = document.getElementById("tablaClientes");
@@ -33,15 +33,25 @@ const nombre = document.getElementById("nombre")
 const ingresados = document.getElementById("ingresados")
 const buscarNombre = document.getElementById("buscarnombre");
 const btnBuscar = document.getElementById("btnBuscar");
+const thCodigo = document.getElementById("thCodigo");
+const thApyn = document.getElementById("thApyn");
 let apynCli = ""; // variable de trabajo
 let codCli = 0;   // variable de trabajo
 let errorEntrada = 0;   // utilizado para indicar codigos de error de inputs y mensajes
 
 /* defino funciones */
 /* funcion para mostrar textos de ayuda o mensajes en el footer*/
-function mostrarAyuda(mensaje) {
-    const ayuda = document.getElementById("ayudaFooter");
-    ayuda.innerText = mensaje;
+function mostrarAyuda(mensaje,donde) {
+    if (donde===1){
+        const ayuda = document.getElementById("ayudaFooter");
+        ayuda.innerText = mensaje;
+    }
+    else {
+        if (donde===2){
+            const ayuda = document.getElementById("ayudaFooterTbla");
+            ayuda.innerText = mensaje;
+        }
+    }
 }
 /* funcion para agregar la fila y columnas a la tabla en el html*/
 function agregafila(cliente, apyn) {
@@ -65,7 +75,7 @@ function completaTabla() {
 /* funcion para validar el ingreso de los datos */
 function limpiaForm() {
     cualFuncion = "A"
-    cualmodifico = -1
+    cualModifico = -1
     document.getElementById("formulario").reset();
     document.getElementById("codigo").disabled = false;
     document.getElementById("nombre").disabled = false;
@@ -139,12 +149,22 @@ function subeArray() {
     localStorage.setItem("clientes", JSON.stringify(arrayClientes));
     return
 }
-
+function ordenarTabla(cualCriterio) {
+    arrayClientes.sort((a, b) => {
+        if (cualCriterio === "codi") {
+            return parseInt(a.codi) - parseInt(b.codi);
+        } else if (cualCriterio === "apyn") {
+            return a.apyn.localeCompare(b.apyn);
+        }
+    });
+    tablaBody.innerHTML = "";
+    completaTabla();
+}
 
 /* Funcion para bajar el storage al array*/
 /*En caso del dom vacío utilizo un json local para cargar un lote inicial por defecto*/
 /*La idea sería simular como si fuera a buscar una bbdd que sería a lo que apuntaría en una etapa avanzada*/
-/*del proyecto cuando sepa como accesar BBDD   !!!! ESPERO SE ENTIENDA!!!!*/ 
+/*del proyecto cuando sepa como accesar BBDD   !!!! ESPERO SE ENTIENDA!!!!*/
 async function bajastorage() {
     if (arrayClientes.length === 0) {
         arrayClientes = JSON.parse(localStorage.getItem("clientes")) || [];
@@ -168,7 +188,10 @@ async function bajastorage() {
 addEventListener("DOMContentLoaded", function () {
     limpiaForm();
     bajastorage(); //Trae registros del storage si hay
-    mostrarAyuda("Ingrese un código para alta o dobleclik en la lista para elegir cliente") 
+    mostrarAyuda("Ingrese un código para alta o seleccione cliente de la tabla",1)             // Muestra mensaje en ayuda de datos
+    mostrarAyuda("Dobleclik en fila selecciona cliente // Click en encabezado cambia el orden",2)  // Muestra mensaje en ayuda de tabla
+    thCodigo.addEventListener("click", () => ordenarTabla("codi"));
+    thApyn.addEventListener("click", () => ordenarTabla("apyn"));
 })
 /* Escucha el evento click en el boton del formulario de clientes */
 formulario.addEventListener("submit", (event) => {
@@ -195,7 +218,7 @@ formulario.addEventListener("submit", (event) => {
             // Código para Modificación
             if (errorEntrada === 0) {
                 /** todo ok modificamos **/
-                arrayClientes[cualmodifico].apyn = apynCli
+                arrayClientes[cualModifico].apyn = apynCli
                 subeArray();    // sube el array al storage
                 tablaBody.innerHTML = "";
                 completaTabla();
@@ -236,7 +259,7 @@ tablaBody.addEventListener("dblclick", function (event) {
             nombre.value = arrayClientes[indiceReal].apyn;
             codigo.disabled = true;
             cualFuncion = "M";
-            cualmodifico = indiceReal;
+            cualModifico = indiceReal;
             errorEntrada = 4 // solo informativo para mensaje
             muestraError(errorEntrada)
             btnBaja.disabled = false; // habilito btnBaja por si se quiere dar de baja
@@ -283,7 +306,7 @@ btnBuscar.addEventListener("click", function () {
 /* Evento click en el boton baja - combinado con sweet alert da baja del dom del array y la tabla  */
 btnBaja.addEventListener("click", function () {
     // no debiar ocurrir por boton diable - pero lo dejo por si acaso hasta que este bien probado 
-    if (cualmodifico === -1 || cualFuncion !== "M") {
+    if (cualModifico === -1 || cualFuncion !== "M") {
         Swal.fire({
             title: "Baja de cliente",
             text: "Primero debés seleccionar un cliente haciendo doble clic en la tabla.",
@@ -291,7 +314,6 @@ btnBaja.addEventListener("click", function () {
         });
         return;
     }
-
     // uso sweet para confirmar la baja
     Swal.fire({
         title: '¿Estás seguro?',
@@ -305,7 +327,7 @@ btnBaja.addEventListener("click", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             //Elimino registro del array
-            arrayClientes.splice(cualmodifico, 1);
+            arrayClientes.splice(cualModifico, 1);
             // Guardo en el strorage
             subeArray();
             // Limpio formulario
@@ -314,3 +336,5 @@ btnBaja.addEventListener("click", function () {
         }
     });
 });
+    /* Eventos click en encabezado para ordenar tablaClientes */
+

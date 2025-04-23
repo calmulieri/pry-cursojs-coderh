@@ -13,7 +13,7 @@ body{
 }
 body header {
     height: 20%;
-    background-color:black;
+    background-color:grey;
     position: sticky;
     top: 0;
 }
@@ -44,7 +44,7 @@ body main .ingreso{
     flex-direction: column;
     padding: 1rem;
     width: 50%;
-    background-color:rgb(201, 241, 212);
+    background-color:beige;
     border: 2px solid darkred ;
     
 }    
@@ -131,25 +131,33 @@ body footer {
     display: flex;
     flex-direction: row;
     align-items: center; 
-    background-color: rgb(150, 89, 4);
+    background-color:grey;
     padding: 0 20px; /* Espaciado interno a los costados */
     gap: 20px; /* Espaciado entre imagen y texto */
     height: 100px;
     border-top: 1px solid rgb(124, 3, 3);
 }
 body footer .imgcomenta{
-    /*margin-top: 20px;
-    margin-left: 20px;*/
     width: 40px;
     height: 40px;
 
 }
 body footer .detallecomenta {
+    width: 50%;
+    margin: 0;
+    font-size: 16px;          
+    color: #e9ca62;         /* color letra*/
+    font-weight: bold;        /* Negrita */
+    text-align: left;
+    
+    
+ 
+}
+body footer .detallecomentbla{
+    width:50%;
     margin: 0;
     font-size: 16px;          
     color: #e9ca62;           /* color letra*/
     font-weight: bold;        /* Negrita */
-    /*background-color: #3d2f01; /* color de fondo */
-    
- 
+    text-align: right;
 }
