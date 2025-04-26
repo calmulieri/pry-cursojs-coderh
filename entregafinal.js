@@ -150,15 +150,24 @@ function subeArray() {
     return
 }
 function ordenarTabla(cualCriterio) {
-    arrayClientes.sort((a, b) => {
-        if (cualCriterio === "codi") {
-            return parseInt(a.codi) - parseInt(b.codi);
-        } else if (cualCriterio === "apyn") {
-            return a.apyn.localeCompare(b.apyn);
-        }
-    });
-    tablaBody.innerHTML = "";
-    completaTabla();
+    if (cualFuncion === "A"){
+        arrayClientes.sort((a, b) => {
+            if (cualCriterio === "codi") {
+                return parseInt(a.codi) - parseInt(b.codi);
+            } else if (cualCriterio === "apyn") {
+                return a.apyn.localeCompare(b.apyn);
+            }
+        });
+        tablaBody.innerHTML = "";
+        completaTabla();
+    }
+    else{
+        Swal.fire({
+            title: "Registro pendiente",
+            text: "Para poder ordenar primero finaliza la operación actual",
+            icon: "info"
+        });
+    }
 }
 
 /* Funcion para bajar el storage al array*/
