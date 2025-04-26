@@ -13,11 +13,6 @@ class cliente {
 }
 /* defino array de clientes */
 let arrayClientes = [];
-// { codi: "1", apyn: "Juan Pérez" },
-//{ codi: "2", apyn: "María García" },
-//{ codi: "3", apyn: "Carlos Gómez" }
-
-// Este array contendrá los datos codigo y nombre
 let cualFuncion = "A"    // Variable que indica la función de la transacción A=Alta - M=Modifica - B=Baja - A es default
 let cualModifico = -1    // variable que contendrá el indice de la tabla a modificar o dar de baja
 /* Defino constantes del formulario */
@@ -38,7 +33,6 @@ const thApyn = document.getElementById("thApyn");
 let apynCli = ""; // variable de trabajo
 let codCli = 0;   // variable de trabajo
 let errorEntrada = 0;   // utilizado para indicar codigos de error de inputs y mensajes
-
 /* defino funciones */
 /* funcion para mostrar textos de ayuda o mensajes en el footer*/
 function mostrarAyuda(mensaje,donde) {
@@ -63,16 +57,14 @@ function agregafila(cliente, apyn) {
     celdaApyn.textContent = `${apyn}`;
     fila.appendChild(celdaApyn);                    //Inserto celda 2
     tablaBody.appendChild(fila);                    //Inserto fila
-    return
 }
 /* Recorre el array y completa la tabla html masivamente */
 function completaTabla() {
     for (let i = 0; i < arrayClientes.length; i++) {
         agregafila(arrayClientes[i].codi, arrayClientes[i].apyn);
     }
-    return
 }
-/* funcion para validar el ingreso de los datos */
+/* funcion para limpiar el formulario y datos default de trabajo */
 function limpiaForm() {
     cualFuncion = "A"
     cualModifico = -1
@@ -83,6 +75,7 @@ function limpiaForm() {
     tablaBody.innerHTML = "";
     completaTabla();
 }
+/* Funcion para mostrar errores*/
 function muestraError(esteError) {
     if (esteError === 1) {
         Swal.fire({
@@ -142,12 +135,10 @@ function valida() {
         }
     }
     muestraError(errorEntrada)
-    return
 }
 /* Funcion para subir el array al storage*/
 function subeArray() {
     localStorage.setItem("clientes", JSON.stringify(arrayClientes));
-    return
 }
 function ordenarTabla(cualCriterio) {
     if (cualFuncion === "A"){
@@ -199,8 +190,8 @@ addEventListener("DOMContentLoaded", function () {
     bajastorage(); //Trae registros del storage si hay
     mostrarAyuda("Ingrese un código para alta o seleccione cliente de la tabla",1)             // Muestra mensaje en ayuda de datos
     mostrarAyuda("Dobleclik en fila selecciona cliente // Click en encabezado cambia el orden",2)  // Muestra mensaje en ayuda de tabla
-    thCodigo.addEventListener("click", () => ordenarTabla("codi"));
-    thApyn.addEventListener("click", () => ordenarTabla("apyn"));
+    thCodigo.addEventListener("click", () => ordenarTabla("codi"));       // Escucha click encabezado para ordenarla tabla                    
+    thApyn.addEventListener("click", () => ordenarTabla("apyn"));         // si lo saco de aca no me funciona... aun no se bien por que
 })
 /* Escucha el evento click en el boton del formulario de clientes */
 formulario.addEventListener("submit", (event) => {
@@ -209,14 +200,15 @@ formulario.addEventListener("submit", (event) => {
     // transfiero valores del formulario a las viariables de trabajo
     codCli = codigo.value;
     apynCli = nombre.value;
-    valida(); /* Valido entrada de datos */
+    valida(); // Valido entrada de datos 
     // Determino si vengo por Alta, Modificacion o Baja a partir del valor de la variable cualfuncion
     switch (cualFuncion) {
         case "A":
             // Código para Alta
             if (errorEntrada === 0) {
-                /** todo ok damos alta **/
+                //** todo ok damos alta **
                 const nuevocliente = new cliente(codCli, apynCli);  // nueva instancia de cliente
+                // intente incluir un metodo que valide los datos pero no me funciona bien.. y lo saque 
                 arrayClientes.push(nuevocliente);   // agrega cliente al array
 
                 subeArray();    // sube el array al storage
@@ -251,7 +243,7 @@ tablaBody.addEventListener("dblclick", function (event) {
         const celdas = filaClickeada.querySelectorAll("td");
         const codSeleccionado = celdas[0].textContent;
 
-        // guardo el índice en el arrayClientes
+        // guardo el índice en el arrayClientes donde le codigo de cleinte es = al codigo seleccionado
         const indiceReal = arrayClientes.findIndex(cliente => cliente.codi == codSeleccionado);
 
         if (indiceReal === -1) {
@@ -321,7 +313,6 @@ btnBaja.addEventListener("click", function () {
             text: "Primero debés seleccionar un cliente haciendo doble clic en la tabla.",
             icon: "info"
         });
-        return;
     }
     // uso sweet para confirmar la baja
     Swal.fire({

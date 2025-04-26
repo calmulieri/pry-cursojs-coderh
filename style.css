@@ -69,7 +69,7 @@ body main .ingreso form .formulario-linea {
 body main .ingreso form .botonera-linea{
     display: flex;
     justify-content: space-between;
-    gap: 1rem; /* Espacio entre los botones */
+    gap: 1rem; /* pongo espacio entre los botones */
     margin-top: 1rem;
 }
 body main .ingreso form .botonera-linea button {
@@ -116,21 +116,23 @@ body main .tablax{
 }
 body main .tablax table {
     width: 100%; 
-    border-collapse: collapse; 
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden; 
 }
 
 body main .tablax th {
     background-color: darkred;
     color: white;
     font-weight: bold;
-    border: 2px solid black; 
+    border: 1px solid #ccc;
     padding: 4px; 
     text-align: center; 
 }
 body main .tablax td {
-    border: 2px solid black; 
-    padding: 4px; /* Espaciado interno */
-    text-align: center; /* Centrar texto */
+    border: 1px solid #ccc;
+    padding: 4px; 
+    text-align: center; 
 }
 body main .tablax tbody tr:hover {
     background-color: #ddd;
@@ -141,8 +143,8 @@ body footer {
     flex-direction: row;
     align-items: center; 
     background-color:grey;
-    padding: 0 20px; /* Espaciado interno a los costados */
-    gap: 20px; /* Espaciado entre imagen y texto */
+    padding: 0 20px; 
+    gap: 20px; /* pongo espacio entre imagen y texto */
     height: 100px;
     border-top: 1px solid rgb(124, 3, 3);
 }
@@ -155,8 +157,8 @@ body footer .detallecomenta {
     width: 50%;
     margin: 0;
     font-size: 16px;          
-    color: #e9ca62;         /* color letra*/
-    font-weight: bold;        /* Negrita */
+    color: #e9ca62;         
+    font-weight: bold;       
     text-align: left;
     
     
@@ -166,7 +168,7 @@ body footer .detallecomentbla{
     width:50%;
     margin: 0;
     font-size: 16px;          
-    color: #e9ca62;           /* color letra*/
-    font-weight: bold;        /* Negrita */
+    color: #e9ca62;           
+    font-weight: bold;        
     text-align: right;
 }
